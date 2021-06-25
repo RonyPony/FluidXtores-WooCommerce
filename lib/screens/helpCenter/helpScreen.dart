@@ -98,9 +98,9 @@ class _HelpScreenState extends State<HelpScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image(
-                          image: NetworkImage(
-                              'https://es.logodownload.org/wp-content/uploads/2018/10/whatsapp-logo-11.png')),
+                      //Image(
+                      //image: NetworkImage(
+                      //    'https://es.logodownload.org/wp-content/uploads/2018/10/whatsapp-logo-11.png')),
                       Text(
                         'Whatsapp',
                         style: TextStyle(color: Colors.green, fontSize: 20),

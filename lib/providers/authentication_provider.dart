@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:fluid/constants.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +47,13 @@ class AuthenticationProvider with ChangeNotifier {
       if (res.isAuthenticated) {
         FlutterWoocommerce x = FlutterWoocommerce(
             url: serverurl, consumerKey: apikey, consumerSecret: secret);
-        var data = await x.getCustomerByEmail(res.email);
+        var userData =
+            await _authenticationService.searchUserByEmail(res.email, x);
+        res.firstName = userData[0]["name"];
+        res.id = userData[0]["id"];
+        res.profilePictureUrl = userData[0]["avatar_urls"]["24"];
+        res.rememberLogin = rememberMe;
+
         loggedUser = res;
         isUserLoggedIn = true;
         notifyListeners();

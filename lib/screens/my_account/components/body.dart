@@ -25,16 +25,6 @@ class Body extends StatelessWidget {
                 Navigator.pushNamed(context, UserInfoScreen.routeName);
               },
             ),
-            DefaultButton(
-              text: "Go back",
-              icon: Icon(
-                Icons.arrow_back_ios_rounded,
-                color: Colors.white,
-              ),
-              press: () {
-                Navigator.pop(context);
-              },
-            ),
           ],
         ),
       ),

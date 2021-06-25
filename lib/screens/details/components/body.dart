@@ -26,7 +26,7 @@ class Body extends StatelessWidget {
       children: [
         ProductImages(product: product),
         TopRoundedContainer(
-          color: Colors.white,
+          color: kPrimaryColor.withOpacity(0.1),
           child: Column(
             children: [
               ProductDescription(

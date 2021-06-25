@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluid/components/default_button.dart';
 import 'package:fluid/screens/category/category_detail_screen.dart';
 import 'package:fluid/size_config.dart';
+import '../../../constants.dart';
 import 'top_rounded_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,44 @@ class Body extends StatelessWidget {
                                 ),
                               );
                             } else {
-                              return CircularProgressIndicator();
+                              if (snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                  snapshot.data.categories.length == 0) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 50,
+                                    ),
+                                    Icon(
+                                      Icons.category_rounded,
+                                      color: kPrimaryColor.withOpacity(0.3),
+                                      size: 80,
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        'Ups!',
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                          color: kPrimaryColor.withOpacity(0.5),
+                                        ),
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        'There are not categories to show',
+                                        style: TextStyle(
+                                          color: kPrimaryColor.withOpacity(1),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return CircularProgressIndicator();
+                              }
                             }
                           },
                           future: allCategories,
@@ -82,8 +120,9 @@ _buildAcat(cate.Categories e, BuildContext context) {
     children: [
       CategoryCard(
           category: e.name,
-          image:
-              'https://i.pinimg.com/736x/f5/e3/9b/f5e39b4d6b6dcd0ddb5c5d26b1e84ca5.jpg',
+          image: e.image == null
+              ? 'https://i.pinimg.com/736x/f5/e3/9b/f5e39b4d6b6dcd0ddb5c5d26b1e84ca5.jpg'
+              : e.image.src,
           numOfBrands: e.id,
           press: () {
             Navigator.pushNamed(context, CategoryDetailScreen.routeName,

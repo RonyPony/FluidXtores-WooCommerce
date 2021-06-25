@@ -52,7 +52,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   .copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 32),
-            NotificationItems(),
+            //NotificationItems(),
+            ceroNotifications(),
             const SizedBox(height: 10),
             ElevatedButton(
               //color: kPrimaryColor,
@@ -77,6 +78,41 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           ],
         ),
       ]),
+    );
+  }
+
+  ceroNotifications() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 50,
+        ),
+        Icon(
+          Icons.notifications_off_outlined,
+          color: kPrimaryColor.withOpacity(0.3),
+          size: 80,
+        ),
+        Center(
+          child: Text(
+            'Vaya!',
+            style: TextStyle(
+              fontSize: 30,
+              color: kPrimaryColor.withOpacity(0.5),
+            ),
+          ),
+        ),
+        Center(
+          child: Text(
+            'There are not notifications to show',
+            style: TextStyle(
+              color: kPrimaryColor.withOpacity(1),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 50,
+        ),
+      ],
     );
   }
 }

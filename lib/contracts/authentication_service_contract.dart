@@ -2,6 +2,7 @@ import 'package:fluid/models/client_user.dart';
 import 'package:fluid/models/new_password_request.dart';
 import 'package:fluid/models/store.dart';
 import 'package:fluid/models/user_response.dart';
+import 'package:flutter_woocommerce/flutter_woocommerce.dart';
 
 abstract class AuthenticationServiceContract {
   Future<int> amountOfTimesUserHasLoggedIn();
@@ -10,6 +11,8 @@ abstract class AuthenticationServiceContract {
 
   Future<UserResponse> logInUser(ClientUser user, bool remember);
 
+  Future<dynamic> searchUserByEmail(
+      String email, FlutterWoocommerce requestInfo);
   Future changePassWord(NewPasswordRequest changePasswordRequest, int idUser);
 
   Future<String> register(ClientUser user);

@@ -45,7 +45,31 @@ class AllCategoriesSection extends StatelessWidget {
                 ),
               );
             } else {
-              return CircularProgressIndicator();
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.data.categories.length == 0) {
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 0,
+                    ),
+                    Icon(
+                      Icons.category_outlined,
+                      color: kPrimaryColor.withOpacity(0.3),
+                      size: 80,
+                    ),
+                    Center(
+                      child: Text(
+                        'Aun no hemos publicado ninguna categoria',
+                        style: TextStyle(
+                          color: kPrimaryColor.withOpacity(1),
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              } else {
+                return CircularProgressIndicator();
+              }
             }
           },
           future: allCategories,

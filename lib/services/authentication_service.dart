@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:fluid/constants.dart';
 import 'package:fluid/models/reques_response.dart';
 import 'package:flutter/services.dart';
@@ -72,6 +73,20 @@ class AuthenticationService implements AuthenticationServiceContract {
     } else {
       return WooAuthedUser.fromJSON(dataResponse);
     }
+  }
+
+  @override
+  Future<dynamic> searchUserByEmail(
+      String email, FlutterWoocommerce requestInfo) async {
+    String host = requestInfo.url;
+    if (!host.endsWith('/')) host += "/";
+    String url = host + 'wp-json/wp/v2/users/?search=$email';
+
+    var response = await http
+        .get(url, headers: {HttpHeaders.contentTypeHeader: "application/json"});
+    var dataResponse = await json.decode(response.body);
+    print(dataResponse);
+    return dataResponse;
   }
 
   @override

@@ -59,7 +59,29 @@ class _AllProductsSectionState extends State<AllProductsSection> {
                   ]),
                 );
               } else {
-                return Text('No hay productos');
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 0,
+                    ),
+                    Icon(
+                      Icons.shopping_cart_outlined,
+                      color: kPrimaryColor.withOpacity(0.3),
+                      size: 80,
+                    ),
+                    Center(
+                      child: Text(
+                        'Aun no hemos publicado ningun prooducto',
+                        style: TextStyle(
+                          color: kPrimaryColor.withOpacity(1),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                  ],
+                );
               }
             } else {
               return CircularProgressIndicator();

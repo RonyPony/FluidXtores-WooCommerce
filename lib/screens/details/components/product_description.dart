@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluid/models/Product.dart';
 import 'package:fluid/models/productCategories.dart';
@@ -21,6 +23,7 @@ class ProductDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CatalogProvider>(context);
     //Future<ProductCategories> categories = categoryProvider.getProductCategories(product.id)
+    var x = product.tags.join("");
     String tagsx = product.tags.toString();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +57,16 @@ class ProductDescription extends StatelessWidget {
                 ),
               ),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => CupertinoAlertDialog(
+                        title: Text('Favorite'),
+                        content: SingleChildScrollView(
+                            child: Text(
+                                '${product.title} is now in your favorites'))),
+                  );
+                },
                 child: SvgPicture.asset(
                   "assets/icons/Heart Icon_2.svg",
                   color: product.isFavourite

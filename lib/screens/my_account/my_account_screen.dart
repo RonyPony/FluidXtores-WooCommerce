@@ -1,3 +1,4 @@
+import 'package:fluid/components/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fluid/components/coustom_bottom_nav_bar.dart';
 import 'package:fluid/enums.dart';
@@ -13,6 +14,16 @@ class MyAccountScreen extends StatelessWidget {
         title: Text("My Account"),
       ),
       body: Body(),
+      bottomSheet: DefaultButton(
+        text: "Go back",
+        icon: Icon(
+          Icons.arrow_back_ios_rounded,
+          color: Colors.white,
+        ),
+        press: () {
+          Navigator.pop(context);
+        },
+      ),
       bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile),
     );
   }
