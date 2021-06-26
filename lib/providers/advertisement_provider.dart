@@ -6,10 +6,18 @@ class AdvertisementProvider with ChangeNotifier {
   AdvertisementServiceContract _advertisementService;
 
   AdvertisementProvider(this._advertisementService);
+  Future<List<String>> getAllOffers() async {
+    try {
+      var result = await _advertisementService.getOffers();
+      return result;
+    } catch (e) {
+      throw e;
+    }
+  }
 
   Future<List<FluidXstoreMedia>> getAll() async {
     try {
-      var result = await _advertisementService.getAll();
+      var result = await _advertisementService.getAllBanners();
       notifyListeners();
 
       return result;

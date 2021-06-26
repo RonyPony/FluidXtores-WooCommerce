@@ -90,31 +90,27 @@ class AuthenticationService implements AuthenticationServiceContract {
   }
 
   @override
-  Future<UserResponse> logInUser(ClientUser user, bool remember) async {
-    UserResponse returningResponse = UserResponse();
+  Future<WooAuthedUser> logInUser(ClientUser user, bool remember) async {
+    final sharedPreferences = await SharedPreferences.getInstance();
     FlutterWoocommerce flutterWoocommerce = FlutterWoocommerce(
         url: serverurl, consumerKey: apikey, consumerSecret: secret);
     var result = await loginRequest(
         User(username: user.email, password: user.password),
         flutterWoocommerce);
-    if (result is RequestResponse) {
-      if (result.code == 'jwt_auth_valid_credential') {
-        returningResponse.isAuthenticated = true;
+    if (result is WooAuthedUser) {
+      if (remember) {
+        final jsonData = jsonEncode(currentUser.toJson());
+        sharedPreferences.setString(SAVED_USER_KEY, jsonData);
+      } else {
+        await sharedPreferences.remove(SAVED_USER_KEY);
       }
-      if (result.code == 'incorrect_password') {
-        print('Incorrect Password');
-        returningResponse.isAuthenticated = false;
-      }
-
-      if (result.code == 'invalid_email') {
-        print('Incorrect Email');
-        returningResponse.isAuthenticated = false;
-      }
+      await _incrementNumberOfLogins();
+      return result;
     } else {
       print('error');
     }
-    returningResponse.email = user.email;
-    return returningResponse;
+
+    return null;
 
     // if (result is! WooError) {
     //   RequestResponse wooAuthedUser = result;

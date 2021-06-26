@@ -36,8 +36,8 @@ const bool twitterSupport = true;
 const String twitterSupportLink = 'http://twitter.com';
 
 const String serverurl = 'https://fluidxtores.live-website.com/';
-const String apikey = 'ck_1121ca5f9f62e808359dffd2b790752e29a8547a';
-const String secret = 'cs_890385bf2506c5cf69a96916650b1220df7e178a';
+const String apikey = 'ck_5ae639c798f4319eab05c9c99d928cf330f26366';
+const String secret = 'cs_6136c1cc92fc1d43004ccc2bf0bf057f9da04b94';
 
 const defaultDuration = Duration(milliseconds: 250);
 

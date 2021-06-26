@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:fluid/models/Categories.dart' as pol;
+import 'package:fluid/models/Page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,9 +13,8 @@ import 'package:fluid/models/FluidXstores_media.dart';
 
 class AdvertisementService implements AdvertisementServiceContract {
   @override
-  Future<List<FluidXstoreMedia>> getAll() async {
+  Future<List<FluidXstoreMedia>> getAllBanners() async {
     String errorMessage = '';
-
     try {
       // String apiName = EnvConfig.configs['userAuthenticationApiUrl'];
       // Dio dio = Dio();
@@ -53,6 +53,51 @@ class AdvertisementService implements AdvertisementServiceContract {
       errorMessage = errorMessage.isEmpty ? e.toString() : errorMessage;
       throw Exception(errorMessage);
     }
+  }
+
+  @override
+  Future<List<String>> getOffers() async {
+    String errorMessage = '';
+    try {
+      final client = NetworkUtil.getClient();
+      final response = await client.get(
+        'wp-json/wp/v2/pages',
+      );
+
+      if (response.statusCode >= 400) {
+        errorMessage = (response.data);
+
+        throw PlatformException(
+            code: "${response.statusCode}",
+            message: "getAllAdvertisementError.",
+            details: '${response.data['message']}');
+      }
+      List<dynamic> pl = response.data;
+      List<WooPage> pages = List();
+      pl.forEach((element) {
+        WooPage pagina = WooPage.fromJson((element));
+        pages.add(pagina);
+      });
+      List<String> offerts = List();
+      pages.forEach((element) {
+        if (isOffer(element.title.rendered)) {
+          var title = element.title.rendered.split("|");
+          offerts.add('${title[1]}|${element.content.rendered}');
+        }
+      });
+      return offerts;
+    } catch (e) {
+      errorMessage = errorMessage.isEmpty ? e.toString() : errorMessage;
+      throw Exception(errorMessage);
+    }
+  }
+}
+
+bool isOffer(String pageName) {
+  if (pageName.contains("offer-")) {
+    return true;
+  } else {
+    return false;
   }
 }
 

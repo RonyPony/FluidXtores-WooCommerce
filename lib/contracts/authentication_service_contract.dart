@@ -3,13 +3,14 @@ import 'package:fluid/models/new_password_request.dart';
 import 'package:fluid/models/store.dart';
 import 'package:fluid/models/user_response.dart';
 import 'package:flutter_woocommerce/flutter_woocommerce.dart';
+import 'package:flutter_woocommerce/flutter_woocommerce_utils.dart';
 
 abstract class AuthenticationServiceContract {
   Future<int> amountOfTimesUserHasLoggedIn();
 
   Future<UserResponse> getCurrentLoggedUser();
 
-  Future<UserResponse> logInUser(ClientUser user, bool remember);
+  Future<WooAuthedUser> logInUser(ClientUser user, bool remember);
 
   Future<dynamic> searchUserByEmail(
       String email, FlutterWoocommerce requestInfo);

@@ -12,6 +12,7 @@ import 'package:fluid/models/client_user.dart';
 import 'package:fluid/models/new_password_request.dart';
 import 'package:fluid/models/user_response.dart';
 import 'package:flutter_woocommerce/flutter_woocommerce.dart';
+import 'package:flutter_woocommerce/flutter_woocommerce_utils.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   AuthenticationServiceContract _authenticationService;
@@ -44,20 +45,25 @@ class AuthenticationProvider with ChangeNotifier {
       ClientUser user, bool rememberMe) async {
     try {
       final res = await _authenticationService.logInUser(user, rememberMe);
-      if (res.isAuthenticated) {
+      if (res is WooAuthedUser) {
         FlutterWoocommerce x = FlutterWoocommerce(
             url: serverurl, consumerKey: apikey, consumerSecret: secret);
         var userData =
             await _authenticationService.searchUserByEmail(res.email, x);
-        res.firstName = userData[0]["name"];
-        res.id = userData[0]["id"];
-        res.profilePictureUrl = userData[0]["avatar_urls"]["24"];
-        res.rememberLogin = rememberMe;
-
-        loggedUser = res;
+        // res.firstName = userData[0]["name"];
+        // res.id = userData[0]["id"];
+        // res.profilePictureUrl = userData[0]["avatar_urls"]["24"];
+        // res.rememberLogin = rememberMe;
+        UserResponse finalUser = UserResponse(
+          email: res.email,
+          firstName: userData[0]["name"],
+          isAuthenticated: true,
+          rememberLogin: rememberMe,
+        );
+        loggedUser = finalUser;
         isUserLoggedIn = true;
         notifyListeners();
-        return res;
+        return finalUser;
       } else {
         throw ("no valid info");
       }
