@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fluid/models/category_item.dart';
 import 'package:fluid/providers/catalog_provider.dart';
-
+import 'package:fluid/constants.dart';
 import 'components/body.dart';
 import 'components/custom_app_bar.dart';
 
@@ -24,7 +24,25 @@ class CategoryDetailScreen extends StatelessWidget {
               body: Body(category: snapshot.data),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Column(
+              children: [
+                SizedBox(
+                  height: 50,
+                ),
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(kPrimaryColor),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Loading this category information',
+                  style: TextStyle(color: kPrimaryColor),
+                )
+              ],
+            );
           }
         });
   }

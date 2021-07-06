@@ -6,7 +6,7 @@ import 'package:fluid/models/productCategories.dart';
 abstract class CatalogServiceContract {
   Future<AllCategories> getCategories();
   Future<AllProducts> getProducts();
-
+  Future<AllProducts> getAllPopularProducts();
   Future<CategoryItem> getCategory(int id);
 
   Future<int> getProductsCount();

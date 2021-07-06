@@ -68,7 +68,22 @@ class AllCategoriesSection extends StatelessWidget {
                   ],
                 );
               } else {
-                return CircularProgressIndicator();
+                return Column(
+                  children: [
+                    Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(kPrimaryColor),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Loading Categories',
+                      style: TextStyle(color: kPrimaryColor),
+                    )
+                  ],
+                );
               }
             }
           },

@@ -51,6 +51,7 @@ class Products {
   bool soldIndividually;
   int quantityLimit;
   AddToCart addToCart;
+  bool isFavorite;
 
   Products(
       {this.id,
@@ -79,6 +80,7 @@ class Products {
       this.lowStockRemaining,
       this.soldIndividually,
       this.quantityLimit,
+      this.isFavorite,
       this.addToCart});
 
   Products.fromJson(Map<String, dynamic> json) {
@@ -92,6 +94,7 @@ class Products {
     shortDescription = json['short_description'];
     description = json['description'];
     onSale = json['on_sale'];
+    //isFavorite=json['isFavorite']
     prices =
         json['prices'] != null ? new Prices.fromJson(json['prices']) : null;
     priceHtml = json['price_html'];
@@ -176,6 +179,7 @@ class Products {
     data['is_purchasable'] = this.isPurchasable;
     data['is_in_stock'] = this.isInStock;
     data['is_on_backorder'] = this.isOnBackorder;
+    data['isFavorite'] = this.isFavorite;
     data['low_stock_remaining'] = this.lowStockRemaining;
     data['sold_individually'] = this.soldIndividually;
     data['quantity_limit'] = this.quantityLimit;

@@ -37,4 +37,10 @@ class CatalogProvider with ChangeNotifier {
     //productsCount = await _service.getProductsCount();
     return products;
   }
+
+  Future<AllProducts> getPopularProducts() async {
+    products = await _service.getAllPopularProducts();
+    //productsCount = await _service.getProductsCount();
+    return products;
+  }
 }

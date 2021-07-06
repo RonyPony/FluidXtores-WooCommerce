@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:fluid/constants.dart';
 import 'package:fluid/providers/advertisement_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -97,7 +97,22 @@ class DiscountBanner extends StatelessWidget {
             );
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                children: [
+                  Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(kPrimaryColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Loading Special Promos',
+                    style: TextStyle(color: kPrimaryColor),
+                  )
+                ],
+              ),
             );
           }
         }

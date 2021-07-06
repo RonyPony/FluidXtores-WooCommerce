@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:fluid/models/tags.dart';
 import 'package:flutter/services.dart';
 import 'package:fluid/helper/network_util.dart';
 import 'package:fluid/contracts/catalog_service_contract.dart';
@@ -95,6 +98,47 @@ class CatalogService implements CatalogServiceContract {
       }
     } catch (e) {
       throw Exception('error');
+    }
+  }
+
+  @override
+  Future<AllProducts> getAllPopularProducts() async {
+    try {
+      final client = NetworkUtil.getClient();
+
+      final response = await client.get('wp-json/wc/store/products');
+      if (response.statusCode < 400) {
+        List<dynamic> allProducts = response.data;
+        List<dynamic> popularProducts = List<dynamic>();
+        allProducts.forEach((element) {
+          bool popular = isPopular(element["tags"]);
+          if (popular) {
+            popularProducts.add(element);
+          }
+        });
+        // String kk = json.encode(popularProducts);
+        AllProducts ex = AllProducts.fromJson(popularProducts);
+        return ex;
+      } else {
+        throw PlatformException(
+            code: "${response.statusCode}", message: "Error occured");
+      }
+    } catch (e) {
+      throw Exception('error');
+    }
+  }
+
+  bool isPopular(List element) {
+    bool contains = false;
+    if (element.length >= 1) {
+      element.forEach((tag) {
+        if (tag["name"].contains('popular')) {
+          contains = true;
+        }
+      });
+      return contains;
+    } else {
+      return false;
     }
   }
 }
