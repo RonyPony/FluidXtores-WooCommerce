@@ -1,3 +1,4 @@
+import 'package:fluid/screens/allProducts/allProductsScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluid/constants.dart';
 
 class AllProductsSection extends StatefulWidget {
-  AllProductsSection({Key key}) : super(key: key);
+  AllProductsSection({
+    Key key,
+  }) : super(key: key);
 
   @override
   _AllProductsSectionState createState() => _AllProductsSectionState();
@@ -23,18 +26,9 @@ class _AllProductsSectionState extends State<AllProductsSection> {
   @override
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<CatalogProvider>(context);
-
     Future<cate.AllProducts> allProducts = productsProvider.getAllProducts();
     return Column(
       children: [
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: SectionTitle(
-            title: "All Products",
-            press: () {},
-          ),
-        ),
         SizedBox(height: getProportionateScreenWidth(10)),
         FutureBuilder<cate.AllProducts>(
           builder: (context, snapshot) {

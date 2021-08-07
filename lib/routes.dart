@@ -1,3 +1,4 @@
+import 'package:fluid/screens/allProducts/allProductsScreen.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluid/screens/cart/cart_screen.dart';
 import 'package:fluid/screens/category/category_detail_screen.dart';
@@ -42,4 +43,5 @@ final Map<String, WidgetBuilder> routes = {
   NotificationsSettingScreen.routeName: (context) =>
       NotificationsSettingScreen(),
   HelpScreen.routeName: (context) => HelpScreen(),
+  AllProductsScreen.routeName: (context) => AllProductsScreen(),
 };

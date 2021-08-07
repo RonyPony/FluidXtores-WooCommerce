@@ -1,3 +1,5 @@
+import 'package:fluid/screens/allProducts/allProductsScreen.dart';
+import 'package:fluid/screens/home/components/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:fluid/screens/home/components/mainBanner.dart';
 
@@ -32,6 +34,16 @@ class Body extends StatelessWidget {
             SizedBox(height: getProportionateScreenWidth(30)),
             PopularProducts(),
             SizedBox(height: getProportionateScreenWidth(30)),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(20)),
+              child: SectionTitle(
+                title: "All Products",
+                press: () {
+                  Navigator.pushNamed(context, AllProductsScreen.routeName);
+                },
+              ),
+            ),
             AllProductsSection(),
           ],
         ),

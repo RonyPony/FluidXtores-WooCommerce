@@ -11,5 +11,7 @@ abstract class CatalogServiceContract {
 
   Future<int> getProductsCount();
 
-  Future<ProductCategories> getProductCategories(int productid) {}
+  Future<List<ProductCategories>> getProductCategories(int productid) {
+    {}
+  }
 }

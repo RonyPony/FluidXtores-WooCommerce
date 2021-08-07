@@ -26,10 +26,10 @@ class CatalogProvider with ChangeNotifier {
     return aCategory2;
   }
 
-  Future<ProductCategories> getProductCategories(int productid) async {
-    ProductCategories aCategory3 =
+  Future<List<ProductCategories>> getProductCategories(int productid) async {
+    List<ProductCategories> kategoryez =
         await _service.getProductCategories(productid);
-    return aCategory3;
+    return kategoryez;
   }
 
   Future<AllProducts> getAllProducts() async {

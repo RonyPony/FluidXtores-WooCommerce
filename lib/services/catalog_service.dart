@@ -85,13 +85,18 @@ class CatalogService implements CatalogServiceContract {
   }
 
   @override
-  Future<ProductCategories> getProductCategories(int productid) async {
+  Future<List<ProductCategories>> getProductCategories(int productid) async {
     try {
-      final client = NetworkUtil.getTokenClient();
-      final response = await client.get('categories/porproducto/$productid');
+      List<ProductCategories> returningList = List<ProductCategories>();
+      final client = NetworkUtil.getClient();
+      final response = await client.get('wp-json/wc/store/products/$productid');
       if (response.statusCode < 400) {
-        //ProductCategories ex = ProductCategories.fromJson(response.data);
-        return response.data;
+        Products ex = Products.fromJson(response.data);
+        ex.categories.forEach((element) {
+          ProductCategories temp = ProductCategories.fromJson(element.toJson());
+          returningList.add(temp);
+        });
+        return returningList;
       } else {
         throw PlatformException(
             code: "${response.statusCode}", message: "error geting categories");

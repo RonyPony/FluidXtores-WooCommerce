@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:fluid/screens/details/components/product_categories.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -40,6 +41,9 @@ class Body extends StatelessWidget {
                             child: Html(data: product.fullDescription))),
                   );
                 },
+              ),
+              AproductCategories(
+                product: product,
               ),
               TopRoundedContainer(
                 color: Color(0xFFF6F7F9),
