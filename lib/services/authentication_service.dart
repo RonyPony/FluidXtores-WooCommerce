@@ -99,6 +99,7 @@ class AuthenticationService implements AuthenticationServiceContract {
         flutterWoocommerce);
     if (result is WooAuthedUser) {
       if (remember) {
+        getCurrentLoggedUser();
         final jsonData = jsonEncode(currentUser.toJson());
         sharedPreferences.setString(SAVED_USER_KEY, jsonData);
       } else {

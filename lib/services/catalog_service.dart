@@ -7,7 +7,7 @@ import 'package:fluid/contracts/catalog_service_contract.dart';
 import 'package:fluid/models/AllProducts.dart';
 import 'package:fluid/models/Categories.dart';
 import 'package:fluid/models/category_item.dart';
-import 'package:fluid/models/productCategories.dart';
+import 'package:fluid/models/productCategory.dart';
 
 class CatalogService implements CatalogServiceContract {
   @override
@@ -85,15 +85,15 @@ class CatalogService implements CatalogServiceContract {
   }
 
   @override
-  Future<List<ProductCategories>> getProductCategories(int productid) async {
+  Future<List<ProductCategory>> getProductCategories(int productid) async {
     try {
-      List<ProductCategories> returningList = List<ProductCategories>();
+      List<ProductCategory> returningList = List<ProductCategory>();
       final client = NetworkUtil.getClient();
       final response = await client.get('wp-json/wc/store/products/$productid');
       if (response.statusCode < 400) {
         Products ex = Products.fromJson(response.data);
         ex.categories.forEach((element) {
-          ProductCategories temp = ProductCategories.fromJson(element.toJson());
+          ProductCategory temp = ProductCategory.fromJson(element.toJson());
           returningList.add(temp);
         });
         return returningList;
