@@ -34,8 +34,11 @@ class CategoryDetailScreen extends StatelessWidget {
                     height: 50,
                   ),
                   Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(kPrimaryColor),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 200),
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(kPrimaryColor),
+                      ),
                     ),
                   ),
                   SizedBox(

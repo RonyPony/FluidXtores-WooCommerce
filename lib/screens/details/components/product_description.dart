@@ -1,3 +1,4 @@
+import 'package:fluid/components/productTags.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -21,10 +22,6 @@ class ProductDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CatalogProvider>(context);
-    //Future<ProductCategories> categories = categoryProvider.getProductCategories(product.id)
-    var x = product.tags.join("");
-    String tagsx = product.tags.toString();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -81,34 +78,18 @@ class ProductDescription extends StatelessWidget {
             left: getProportionateScreenWidth(20),
             right: getProportionateScreenWidth(64),
           ),
-          child: Text(
-            product.description,
-            maxLines: 3,
-          ),
+          child: Html(data: product.description,),
+          // Text(
+          //   product.description,
+          //   maxLines: 3,
+          // ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: getProportionateScreenWidth(20),
             vertical: 10,
           ),
-          child: Row(
-            children: [
-              product.tags.length > 0
-                  ? Icon(
-                      Icons.tag,
-                      size: 25,
-                      color: kPrimaryColor.withOpacity(.5),
-                    )
-                  : SizedBox(),
-              SizedBox(width: 5),
-              Text(
-                tagsx.replaceAll("[", "").replaceAll("]", ""),
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: kPrimaryColor.withOpacity(0.5)),
-              ),
-            ],
-          ),
+          
         ),
         Padding(
           padding: EdgeInsets.symmetric(

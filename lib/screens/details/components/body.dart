@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:fluid/components/productTags.dart';
 import 'package:fluid/screens/details/components/product_categories.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +43,12 @@ class Body extends StatelessWidget {
                   );
                 },
               ),
+              Padding(padding: EdgeInsets.only(left: 50,bottom: 10),child: Column(children: [
+              Text('Tags'),
+              ProductTags(product: product,),   ],),),
               AproductCategories(
                 product: product,
-              ),
+              ),         
               TopRoundedContainer(
                 color: Color(0xFFF6F7F9),
                 child: Column(
