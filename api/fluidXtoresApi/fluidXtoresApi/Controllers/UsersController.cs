@@ -28,6 +28,26 @@ namespace fluidXtoresApi.Controllers
             return await _context.Users.ToListAsync();
         }
 
+        [HttpGet("auth")]
+        public async Task<ActionResult<AuthUser>>authenticate(AuthUser userInfo)
+        {
+            var users = _context.Users.FirstOrDefault(u => u.UserEmail == userInfo.email && u.UserPassword==userInfo.password);
+           if (users != null)
+            {
+                AuthUser returningInfo = new AuthUser();
+                returningInfo.token = "Not Available";
+                returningInfo.email = users.UserEmail;
+                returningInfo.nickname = users.firstName;
+                returningInfo.displayName = users.firstName + " " + users.lastName;
+                return returningInfo;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)

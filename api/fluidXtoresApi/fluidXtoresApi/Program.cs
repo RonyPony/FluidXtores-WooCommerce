@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<userContext>(opt =>
 {
-    opt.UseInMemoryDatabase("users");
+    opt.UseSqlServer("name=ConnectionStrings:def");
+    //opt.UseInMemoryDatabase("users");
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
