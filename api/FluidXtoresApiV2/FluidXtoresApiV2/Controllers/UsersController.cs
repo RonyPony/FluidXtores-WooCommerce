@@ -44,7 +44,7 @@ namespace FluidXtoresApiV2.Controllers
             return user;
         }
 
-        [HttpGet("auth")]
+        [HttpPost("auth")]
         public async Task<ActionResult<AuthUser>> authenticate(AuthUser userInfo)
         {
             var users = _context.Users.FirstOrDefault(u => u.UserEmail == userInfo.email && u.UserPassword == userInfo.password);

@@ -56,23 +56,28 @@ class AuthenticationService implements AuthenticationServiceContract {
   }
 
   Future<dynamic> loginRequest(User user, FlutterWoocommerce wooInfo) async {
-    if (user.username == null) {
-      return WooError(message: "Username is empty");
+   try{
+ if (user.email == null) {
+      return WooError(message: "email is empty");
     } else if (user.password == null) {
       return WooError(message: "Password is empty");
     }
     String host = wooInfo.url;
     if (!host.endsWith('/')) host += "/";
-    String url = host + 'wp-json/jwt-auth/v1/token';
+    String url = host + 'api/users/auth';
+    var dio = NetworkUtil.getClient();
 
-    var response = await http.post(url,
-        body: {"username": user.username, "password": user.password});
-    var dataResponse = await json.decode(response.body);
+    var response = await dio.post(url,
+        data: json.encode(user));
+    var dataResponse = await json.decode(response.statusCode.toString());
     if (dataResponse['message'] != null) {
       return RequestResponse.fromJSON(dataResponse);
     } else {
       return WooAuthedUser.fromJSON(dataResponse);
     }
+   }catch(ex){
+     print(ex);
+   }
   }
 
   @override
@@ -95,7 +100,7 @@ class AuthenticationService implements AuthenticationServiceContract {
     FlutterWoocommerce flutterWoocommerce = FlutterWoocommerce(
         url: serverurl, consumerKey: apikey, consumerSecret: secret);
     var result = await loginRequest(
-        User(username: user.email, password: user.password),
+        User(email: user.email, password: user.password),
         flutterWoocommerce);
     if (result is WooAuthedUser) {
       if (remember) {
