@@ -30,7 +30,7 @@ class _ProfilePicState extends State<ProfilePic> {
         width: 115,
         child: Stack(
           fit: StackFit.expand,
-          overflow: Overflow.visible,
+          // overflow: Overflow.visible,
           children: [
             CircleAvatar(
               //backgroundImage: AssetImage("assets/images/Profile Image.png"),
