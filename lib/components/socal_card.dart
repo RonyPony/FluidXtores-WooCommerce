@@ -29,7 +29,7 @@ class SocalCard extends StatelessWidget {
           color: Color(0xFFF5F6F9),
           shape: BoxShape.circle,
         ),
-        child: SvgPicture.asset(icon!),
+        child: SvgPicture.asset(icon!,width: 60,),
       ),
     );
   }
