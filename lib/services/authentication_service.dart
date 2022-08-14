@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:fluidxtores/constants.dart';
 import 'package:fluidxtores/models/reques_response.dart';
 import 'package:fluidxtores/models/user.dart';
@@ -9,10 +10,10 @@ import 'package:fluidxtores/contracts/authentication_service_contract.dart';
 import 'package:fluidxtores/helper/network_util.dart';
 import 'package:fluidxtores/models/client_user.dart';
 import 'package:fluidxtores/models/new_password_request.dart';
-import 'package:http/http.dart' as http;
 import 'package:fluidxtores/models/store.dart';
 import 'package:fluidxtores/models/user_response.dart';
 
+import '../helper/ecommerceConnectionInfo.dart';
 import '../models/authUser.dart';
 
 class AuthenticationService implements AuthenticationServiceContract {
@@ -20,6 +21,7 @@ class AuthenticationService implements AuthenticationServiceContract {
       'amountOfTimesUserHasAuthenticated';
   static UserResponse? currentUser;
   static const String? SAVED_USER_KEY = 'savedUserForAgrimensorLogin';
+Dio cliente = Dio();
 
   @override
   Future<int> amountOfTimesUserHasLoggedIn() async {
@@ -51,10 +53,12 @@ class AuthenticationService implements AuthenticationServiceContract {
       String? usr = jsonEncode(_user.toJson());
 
       sharedPreferences.setString(NetworkUtil.TEMP_USER_KEY!, usr);
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
-  Future<dynamic> loginRequest(User user, dynamic wooInfo) async {
+  Future<dynamic> loginRequest(User user, EcommerceConnectionInfo wooInfo) async {
     if (user.username == null) {
       return GeneralError(message: "Username is empty");
     } else if (user.password == null) {
@@ -62,15 +66,19 @@ class AuthenticationService implements AuthenticationServiceContract {
     }
     String? host = wooInfo.url;
     if (!host!.endsWith('/')) host += "/";
-    String? url = host + 'wp-json/jwt-auth/v1/token';
+    String? url = host + 'api/users/login';
 
-    var response = await http.post(Uri(host: url),
-        body: {"username": user.username, "password": user.password});
-    var dataResponse = await json.decode(response.body);
-    if (dataResponse['message'] != null) {
-      return RequestResponse.fromJSON(dataResponse);
-    } else {
-      return AuthedUser.fromJSON(dataResponse);
+    try {
+      var response = await cliente.post(url,data: 
+          {"username": user.username, "password": user.password});
+      var dataResponse = await json.decode(response.data);
+      if (dataResponse['message'] != null) {
+        return RequestResponse.fromJSON(dataResponse);
+      } else {
+        return AuthedUser.fromJSON(dataResponse);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -81,9 +89,9 @@ class AuthenticationService implements AuthenticationServiceContract {
     if (!host!.endsWith('/')) host += "/";
     String? url = host + 'wp-json/wp/v2/users/?search=$email';
 
-    var response = await http
-        .get(Uri(host: url), headers: {HttpHeaders.contentTypeHeader: "application/json"});
-    var dataResponse = await json.decode(response.body);
+    var response = await cliente
+        .get(url);
+    var dataResponse = await json.decode(response.data);
     print(dataResponse);
     return dataResponse;
   }
@@ -91,7 +99,9 @@ class AuthenticationService implements AuthenticationServiceContract {
   @override
   Future<AuthedUser> logInUser(ClientUser user, bool remember) async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    var flutterWoocommerce;
+    EcommerceConnectionInfo flutterWoocommerce = EcommerceConnectionInfo(
+      url: serverurl
+    );
     // FlutterWoocommerce(
     //     url: serverurl, consumerKey: apikey, consumerSecret: secret);
     var result = await loginRequest(
@@ -413,9 +423,10 @@ class AuthenticationService implements AuthenticationServiceContract {
     } catch (e) {
       return ClientUser();
     }
-    {}
   }
 }
+
+
 
 class GeneralError {
   String? message;

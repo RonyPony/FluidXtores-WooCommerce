@@ -16,15 +16,18 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String?, String?>> splashData = [
     {
+      "title":"We Are Fluid",
       "text": "Welcome to FluiXstores, Let’s shop!",
       "image": "assets/images/splash_1.png"
     },
     {
+      "title": "Part of you",
       "text":
           "We help people conect with store \naround United State of America",
       "image": "assets/images/splash_2.png"
     },
     {
+      "title": "We are simple",
       "text": "We show the easy way to shop. \nJust stay at home with us",
       "image": "assets/images/splash_3.png"
     },
@@ -46,6 +49,7 @@ class _BodyState extends State<Body> {
                 },
                 itemCount: splashData.length,
                 itemBuilder: (context, index) => SplashContent(
+                  title: splashData[index]["title"],
                   image: splashData[index]["image"],
                   text: splashData[index]['text'],
                 ),

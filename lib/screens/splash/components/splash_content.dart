@@ -6,10 +6,11 @@ import '../../../size_config.dart';
 class SplashContent extends StatelessWidget {
   const SplashContent({
     Key? key,
+    this.title,
     this.text,
     this.image,
   }) : super(key: key);
-  final String? text, image;
+  final String? text, image,title;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class SplashContent extends StatelessWidget {
       children: <Widget>[
         Spacer(),
         Text(
-          appName!,
+          title!,
           style: TextStyle(
             fontSize: getProportionateScreenWidth(36),
             color: kPrimaryColor,
