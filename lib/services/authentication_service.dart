@@ -15,13 +15,14 @@ import 'package:fluidxtores/models/user_response.dart';
 
 import '../helper/ecommerceConnectionInfo.dart';
 import '../models/authUser.dart';
+import '../models/user_login_response.dart';
 
 class AuthenticationService implements AuthenticationServiceContract {
   static const String? AUTHENTICATION_NUMBER_KEY =
       'amountOfTimesUserHasAuthenticated';
   static UserResponse? currentUser;
   static const String? SAVED_USER_KEY = 'savedUserForAgrimensorLogin';
-Dio cliente = Dio();
+  var cliente = Dio();
 
   @override
   Future<int> amountOfTimesUserHasLoggedIn() async {
@@ -58,7 +59,8 @@ Dio cliente = Dio();
     }
   }
 
-  Future<dynamic> loginRequest(User user, EcommerceConnectionInfo wooInfo) async {
+  Future<dynamic> loginRequest(
+      User user, EcommerceConnectionInfo wooInfo) async {
     if (user.username == null) {
       return GeneralError(message: "Username is empty");
     } else if (user.password == null) {
@@ -67,15 +69,20 @@ Dio cliente = Dio();
     String? host = wooInfo.url;
     if (!host!.endsWith('/')) host += "/";
     String? url = host + 'api/users/login';
-
+    Response? response;
     try {
-      var response = await cliente.post(url,data: 
-          {"username": user.username, "password": user.password});
-      var dataResponse = await json.decode(response.data);
-      if (dataResponse['message'] != null) {
-        return RequestResponse.fromJSON(dataResponse);
-      } else {
-        return AuthedUser.fromJSON(dataResponse);
+      var formData = {'userEmail': user.username, 'userPassword': user.password};
+      response = await cliente.post<Map<String,dynamic>>(url, data: formData);
+      if (response.statusCode==200) {
+        UserLoginReponse dataResponse =
+            await UserLoginReponse.fromJson(response.data);
+        return dataResponse;
+      }
+    } on DioError catch (e) {
+      if(e.response!.statusCode==400){
+        return e.response!.statusMessage;
+      }else{
+        return "Server returner unknown error";
       }
     } catch (e) {
       print(e);
@@ -83,31 +90,28 @@ Dio cliente = Dio();
   }
 
   @override
-  Future<dynamic> searchUserByEmail(
-      String? email, dynamic requestInfo) async {
-    String? host = requestInfo.url;
+  Future<dynamic> searchUserByEmail(String? email) async {
+    String? host = serverurl;
     if (!host!.endsWith('/')) host += "/";
-    String? url = host + 'wp-json/wp/v2/users/?search=$email';
+    String? url = host + 'api/users/find?email=$email';
 
-    var response = await cliente
-        .get(url);
-    var dataResponse = await json.decode(response.data);
+    var response = await cliente.get(url);
+    UserLoginReponse dataResponse = await UserLoginReponse.fromJson(response.data[0]);
     print(dataResponse);
     return dataResponse;
   }
 
   @override
-  Future<AuthedUser> logInUser(ClientUser user, bool remember) async {
+  Future<UserLoginReponse> logInUser(ClientUser user, bool remember) async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    EcommerceConnectionInfo flutterWoocommerce = EcommerceConnectionInfo(
-      url: serverurl
-    );
+    EcommerceConnectionInfo flutterWoocommerce =
+        EcommerceConnectionInfo(url: serverurl);
     // FlutterWoocommerce(
     //     url: serverurl, consumerKey: apikey, consumerSecret: secret);
     var result = await loginRequest(
         User(username: user.email, password: user.password),
         flutterWoocommerce);
-    if (result is AuthedUser) {
+    if (result is UserLoginReponse) {
       if (remember) {
         getCurrentLoggedUser();
         final jsonData = jsonEncode(currentUser!.toJson());
@@ -121,7 +125,7 @@ Dio cliente = Dio();
       print('error');
     }
 
-    return AuthedUser();
+    return UserLoginReponse();
 
     // if (result is! GeneralError) {
     //   RequestResponse AuthedUser = result;
@@ -425,8 +429,6 @@ Dio cliente = Dio();
     }
   }
 }
-
-
 
 class GeneralError {
   String? message;

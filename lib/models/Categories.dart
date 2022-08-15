@@ -42,9 +42,9 @@ class Categories {
   String? createdOnUtc;
   bool? allowCustomersToSelectPageSize;
   String? updatedOnUtc;
-  List<Null>? roleIds;
-  List<Null>? discountIds;
-  List<Null>? storeIds;
+  List<int>? roleIds;
+  List<int>? discountIds;
+  List<int>? storeIds;
   Image? image;
   String? seName;
   int? id;

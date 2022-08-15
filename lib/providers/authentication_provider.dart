@@ -12,6 +12,7 @@ import 'package:fluidxtores/models/user_response.dart';
 
 import '../models/authUser.dart';
 import '../models/store.dart';
+import '../models/user_login_response.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   AuthenticationServiceContract _authenticationService;
@@ -44,19 +45,18 @@ class AuthenticationProvider with ChangeNotifier {
       ClientUser user, bool rememberMe) async {
     try {
       final res = await _authenticationService.logInUser(user, rememberMe);
-      if (res is AuthedUser) {
-        var x;
+      if (res is UserLoginReponse) {
         // FlutterWoocommerce x = FlutterWoocommerce(
         //     url: serverurl, consumerKey: apikey, consumerSecret: secret);
         var userData =
-            await _authenticationService.searchUserByEmail(res.email, x);
+            await _authenticationService.searchUserByEmail(res.userEmail);
         // res.firstName = userData[0]["name"];
         // res.id = userData[0]["id"];
         // res.profilePictureUrl = userData[0]["avatar_urls"]["24"];
         // res.rememberLogin = rememberMe;
         UserResponse finalUser = UserResponse(
-          email: res.email,
-          firstName: userData[0]["name"],
+          email: res.userEmail,
+          firstName: res.userName,
           isAuthenticated: true,
           rememberLogin: rememberMe,
         );

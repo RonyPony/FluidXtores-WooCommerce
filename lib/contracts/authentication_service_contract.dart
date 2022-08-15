@@ -4,16 +4,17 @@ import 'package:fluidxtores/models/store.dart';
 import 'package:fluidxtores/models/user_response.dart';
 
 import '../models/authUser.dart';
+import '../models/user_login_response.dart';
 
 abstract class AuthenticationServiceContract {
   Future<int> amountOfTimesUserHasLoggedIn();
 
   Future<UserResponse> getCurrentLoggedUser();
 
-  Future<AuthedUser> logInUser(ClientUser user, bool remember);
+  Future<dynamic> logInUser(ClientUser user, bool remember);
 
   Future<dynamic> searchUserByEmail(
-      String? email, dynamic requestInfo);
+      String? email);
   Future changePassWord(NewPasswordRequest changePasswordRequest, int idUser);
 
   Future<String?> register(ClientUser user);

@@ -1,4 +1,4 @@
-package com.example.fluidxtores
+package com.ronytuquizz.fluidxtores
 
 import io.flutter.embedding.android.FlutterActivity
 

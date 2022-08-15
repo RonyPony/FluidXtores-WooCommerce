@@ -14,7 +14,7 @@ class CatalogService implements CatalogServiceContract {
     try {
       final client = NetworkUtil.getClient();
 
-      final response = await client.get('wp-json/wc/store/products/categories');
+      final response = await client.get('api/categories');
       if (response.statusCode! < 400) {
         AllCategories ex = AllCategories.fromJson(response.data);
         return ex;
