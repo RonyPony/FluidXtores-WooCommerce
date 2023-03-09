@@ -56,12 +56,12 @@ class _ProfilePicState extends State<ProfilePic> {
                     ? SizedBox(
                         height: 46,
                         width: 46,
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            side: BorderSide(color: Colors.white),
-                          ),
-                          color: Color(0xFFF5F6F9),
+                        child: ElevatedButton(
+                          // shape: RoundedRectangleBorder(
+                          //   borderRadius: BorderRadius.circular(50),
+                          //   side: BorderSide(color: Colors.white),
+                          // ),
+                          // color: Color(0xFFF5F6F9),
                           onPressed: () {
                             _updateProfileImage(context);
                           },

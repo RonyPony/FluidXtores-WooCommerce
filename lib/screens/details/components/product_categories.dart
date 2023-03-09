@@ -102,8 +102,8 @@ class AproductCategories extends StatelessWidget {
   _buildAcat(ProductCategory categoryItem, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: FlatButton(
-          color: kPrimaryColor,
+      child: ElevatedButton(
+          // color: kPrimaryColor,
           onPressed: () {
             Navigator.pushNamed(context, CategoryDetailScreen.routeName,
                 arguments: CatDetailsArguments(catId: categoryItem.id!));
