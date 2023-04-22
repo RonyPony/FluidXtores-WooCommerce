@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 import 'package:fluidxtores/helper/network_util.dart';
 import 'package:fluidxtores/contracts/catalog_service_contract.dart';
@@ -14,9 +13,9 @@ class CatalogService implements CatalogServiceContract {
     try {
       final client = NetworkUtil.getClient();
 
-      final response = await client.get('api/categories');
+      final response = await client.get('categories');
       if (response.statusCode! < 400) {
-        AllCategories ex = AllCategories.fromJson(response.data);
+        AllCategories ex = AllCategories.fromJson(response.data!["categories"]);
         return ex;
       } else {
         throw PlatformException(
@@ -31,7 +30,7 @@ class CatalogService implements CatalogServiceContract {
     try {
       final client = NetworkUtil.getClient();
 
-      final response = await client.get('wp-json/wc/store/products');
+      final response = await client.get('products');
       if (response.statusCode! < 400) {
         AllProducts ex = AllProducts.fromJson(response.data);
         return ex;

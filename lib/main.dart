@@ -1,4 +1,7 @@
+import 'package:fluidxtores/contracts/storeInfo_service_contract.dart';
 import 'package:fluidxtores/providers/advertisement_provider.dart';
+import 'package:fluidxtores/providers/store_info_provider.dart';
+import 'package:fluidxtores/services/store_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fluidxtores/providers/authentication_provider.dart';
 import 'package:fluidxtores/providers/cart_provider.dart';
@@ -33,6 +36,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => AdvertisementProvider(AdvertisementService()),
           ),
+          ChangeNotifierProvider(
+              create: ((context) => StoreInfoProvider(StoreInfoService()))),
           ChangeNotifierProvider(
               create: (context) => ShoppingCartProvider(
                   AuthenticationService(), AddressService())),
